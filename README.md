@@ -13,10 +13,10 @@ possible constants:
 could make the board an object and set each square as a property with x and y coordinates, adding and removing squares as needed, not sure what else I could make constant. Will have to think more.
 
 possible variables:  
-boardColumns . 
-boardRows . 
-flags . 
-bombs . 
+boardColumns   
+boardRows  
+flags  
+bombs   
 currentRevealedTiles
 
 possible functions:
