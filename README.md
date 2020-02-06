@@ -9,14 +9,14 @@ init fills board section with 10 columns and 8 rows by default, it should store 
 timer?
 
 possible constants:
-could make the board an object and set each square as a property with x and y coordinates, adding and removing squares as needed
-not sure what else I could make constant, will have to think more.
 
-possible variables:
-boardColumns
-boardRows
-flags
-bombs
+could make the board an object and set each square as a property with x and y coordinates, adding and removing squares as needed, not sure what else I could make constant. Will have to think more.
+
+possible variables:  
+boardColumns . 
+boardRows . 
+flags . 
+bombs . 
 currentRevealedTiles
 
 possible functions:
