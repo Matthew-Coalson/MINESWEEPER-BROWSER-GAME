@@ -1,12 +1,20 @@
 /*----- constants -----*/
 
-class tile {
-    constructor(tileState,) {
-        this.tileState = tileState;
-        this.adjacent = [];
-    }
-}
+const boardState = {
+    tiles: {}
+};
+boardState.tiles[0] = 0;
+console.log(boardState.tiles);
+boardState.tiles[0][state] = 'b';
+console.log(boardState.tiles[0].state);
+boardState.tiles.tile[0].adjacent = [];
+boardState.tiles.tile[0].adjacent.push('taco');
 
+console.log(boardState);
+console.log(boardState.tiles[0]);
+boardState.tiles[1].adjacent.push('taco');
+boardState.tiles[1].adjacent.push('bell');
+console.log(boardstate.tiles.adjacent)
 
 /*----- app's state (variables) -----*/
 
@@ -14,13 +22,21 @@ let columnCount = 10;
 let rowCount = 8;
 let bombCount = 10;
 /*----- cached element references -----*/
+makeTiledBoard(findBombAdjacent(getBombs(10, 8, 10)));
 /*----- event listeners -----*/
 /*----- functions -----*/
 
 function makeTiledBoard(board) {
-    
+    let y;
+    let count = 0;
+    for (let i = 0; i < board.length; i++) {
+        y = i;
+        for(let i = 0; i < board[y].length; i++) {
+            boardState.tiles[count] = board[y][i];
+            count += 1;
+        }
+    }
 }
-
 
 function findBombAdjacent(board) {
     let y;
