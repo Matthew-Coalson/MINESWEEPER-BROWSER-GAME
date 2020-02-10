@@ -3,11 +3,6 @@
 const revealState = {
     tiles: {}
 }
-const timerEl = document.querySelector('h2');
-const boardEl = document.getElementById('board');
-
-
-
 
 /*----- app's state (variables) -----*/
 
@@ -19,27 +14,74 @@ let revealedTiles = 0;
 let seconds = 0;
 let minutes = 0;
 let timeNow;
+let timerOn = false;
+let endStatus = false;
 /*----- cached element references -----*/
-boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
+
+const timerEl = document.querySelector('h2');
+const boardEl = document.getElementById('board');
+let tileEls = [];
 /*----- event listeners -----*/
 boardEl.addEventListener('click', handleSqrClick);
+boardEl.addEventListener('oncontextmenu', handleSqrRClick)
+
+init();
 /*----- functions -----*/
-setRevealState(boardLayout);
-renderBoard(boardLayout);
 function init() {
+    endStatus = false;
+    boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
+    clear()
+    setRevealState(boardLayout);
+    createBoard(boardLayout);
+    getTileEls();
+    render();
 
-}
-
-function render() {
     
 }
 
-function handleSqrClick(evt) {
+function render() {
+    renderBoard();
+}
 
+function handleSqrClick(evt) {
+    if (timerOn === false && endStatus !== true) {
+        timer();
+        timerOn = true;
+    }
+    if (endStatus) return;
+    if (boardLayout[evt.target.id] === 'b') {
+        endStatus = true;
+        stop();
+        bombClick(parseInt(evt.target.id));
+    }
+    checkBlank(parseInt(evt.target.id));
+    render();
+}
+
+function contextMenu() {
+boardEl.contextMenu.preventDefault();
+}
+
+function handleSqrRClick(evt) {
+    evt.preventDefault();
+  
 }
 
 function checkWinCon() {
-    return revealedTiles === columnCount * rowCount - bombCount;
+    if (revealedTiles === columnCount * rowCount - bombCount) {
+        endStatus = true;
+    }
+}
+
+function bombClick(index) {
+    revealState.tiles[index] = 'r';
+    for (let i = 0; i < boardLayout.length; i++) {
+        if (boardLayout[i] === 'b') {
+            revealState.tiles[i] = 'r';
+            render()
+        }
+    }
+    
 }
 
 function setRevealState(board) {
@@ -47,7 +89,6 @@ function setRevealState(board) {
             revealState.tiles[i] = 'h';
     }
 }
-
 
 function findBombAdjacent(board) {
     for (let i = 0; i < board.length; i++) {
@@ -67,20 +108,20 @@ function findBombAdjacent(board) {
     return board;
 }
 function checkBlank(index) {
-    if(boardLayout[index] !== 'b' && revealState[index] === 'h') {
+    if(boardLayout[index] !== 'b' && revealState.tiles[index] === 'h') {
         const x = index % columnCount;        
         const y = Math.floor(index / columnCount);
         revealedTiles++;
-        reavealState[index] = 'r';
+        revealState.tiles[index] = 'r';
         if (boardLayout[index] === 0) {
-            if (x > 0 && revealState[index - 1] === 'h') checkBlank(index - 1);
-            if (y > 0 && revealState[index - columnCount] === 'h') checkBlank(index - columnCount);
-            if (x > 0 && y > 0 && revealState[index - columnCount - 1] === 'h') checkBlank(index - columnCount - 1);
-            if (x > 0 && y < (rowCount - 1) && y < (rowCount - 1) && revealState[index + columnCount - 1] === 'h') checkBlank(index + columnCount - 1);
-            if (x < (columnCount - 1) && revealState[index + 1] === 'h') checkBlank(index + 1);
-            if (y < (rowCount - 1) && revealState[index + columnCount] === 'h') checkBlank(index + columnCount);
-            if (x < (columnCount - 1) && y < (rowCount - 1) && revealState[index + columnCount + 1] === 'h') checkBlank(index + columnCount + 1);
-            if (x < (columnCount - 1) && y > 0 && y < (rowCount - 1) && revealState[index - columnCount + 1] === 'h') checkBlank(index - columnCount + 1);
+            if (x < (columnCount - 1) && revealState.tiles[index + 1] === 'h') checkBlank(index + 1);
+            if (y < (rowCount - 1) && revealState.tiles[index + columnCount] === 'h') checkBlank(index + columnCount);
+            if (x > 0 && revealState.tiles[index - 1] === 'h') checkBlank(index - 1);
+            if (y > 0 && revealState.tiles[index - columnCount] === 'h') checkBlank(index - columnCount);
+            if (x > 0 && y > 0 && revealState.tiles[index - columnCount - 1] === 'h') checkBlank(index - columnCount - 1);
+            if (x > 0 && y < (rowCount - 1) && y < (rowCount - 1) && revealState.tiles[index + columnCount - 1] === 'h') checkBlank(index + columnCount - 1);
+            if (x < (columnCount - 1) && y < (rowCount - 1) && revealState.tiles[index + columnCount + 1] === 'h') checkBlank(index + columnCount + 1);
+            if (x < (columnCount - 1) && y > 0 && y < (rowCount - 1) && revealState.tiles[index - columnCount + 1] === 'h') checkBlank(index - columnCount + 1);
         }
     }
 }
@@ -103,9 +144,23 @@ function getRandomIdx(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function renderBoard(board) {
+function renderBoard() {
+    for (let i = 0; i < boardLayout.length; i++) {
+        if (revealState.tiles[i] !== 'h') {
+            tileEls[i].textContent = boardLayout[i];
+        }
+    }
+}
+
+function getTileEls() {
+    for (let i = 0; i < boardLayout.length; i++) {
+        tileEls.push(document.getElementById(`${i}`));
+    }
+}
+
+function createBoard(board) {
     for (let i = 0; i < board.length; i++) {
-        boardEl.innerHTML += `<div id="${i}">${revealState.tiles[i] === 'h' ? revealState.tiles[i] : boardLayout[i]}</div>`;
+        boardEl.innerHTML += `<div id="${i}"></div>`;
     }
 }
 
