@@ -31,11 +31,11 @@ section {
 
 div {
     
-    border: .01em solid #2c3e50;
+    border: .17em solid #c573b3;
     border-radius: .1em;
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 4em;
+    font-size: 1em;
     display: flex;
     justify-content: center;
     align-items: center;

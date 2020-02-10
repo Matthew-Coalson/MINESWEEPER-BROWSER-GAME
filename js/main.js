@@ -22,7 +22,22 @@ let timeNow;
 /*----- cached element references -----*/
 boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
 /*----- event listeners -----*/
+boardEl.addEventListener('click', handleSqrClick);
 /*----- functions -----*/
+setRevealState(boardLayout);
+renderBoard(boardLayout);
+function init() {
+
+}
+
+function render() {
+    
+}
+
+function handleSqrClick(evt) {
+
+}
+
 function checkWinCon() {
     return revealedTiles === columnCount * rowCount - bombCount;
 }
@@ -30,9 +45,9 @@ function checkWinCon() {
 function setRevealState(board) {
     for (let i = 0; i < board.length; i++) {
             revealState.tiles[i] = 'h';
-        }
     }
 }
+
 
 function findBombAdjacent(board) {
     for (let i = 0; i < board.length; i++) {
@@ -88,27 +103,33 @@ function getRandomIdx(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-// function addTime() {
-//     seconds++;
-//     if (seconds >= 60) {
-//         seconds = 0;
-//         minutes++;
-//     }
+function renderBoard(board) {
+    for (let i = 0; i < board.length; i++) {
+        boardEl.innerHTML += `<div id="${i}">${revealState.tiles[i] === 'h' ? revealState.tiles[i] : boardLayout[i]}</div>`;
+    }
+}
+
+function addTime() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+    }
     
-//     timerEl.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-//     timer();
-// }
+    timerEl.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
 
-// function timer() {
-//     timeNow = setTimeout(addTime, 1000);
-// }
+function timer() {
+    timeNow = setTimeout(addTime, 1000);
+}
 
-// function stop() {
-//     clearTimeout(timeNow);
-// }
+function stop() {
+    clearTimeout(timeNow);
+}
 
-// function clear() {
-//     timerEl.textContent = "00:00";
-//     seconds = 0;
-//     minutes = 0;
-// }
+function clear() {
+    timerEl.textContent = "00:00";
+    seconds = 0;
+    minutes = 0;
+}
