@@ -20,17 +20,22 @@ let endStatus = false;
 
 const timerEl = document.querySelector('h2');
 const boardEl = document.getElementById('board');
+const difficultyEl = document.getElementById('difficulty');
+
+
 let tileEls = [];
 /*----- event listeners -----*/
 boardEl.addEventListener('click', handleSqrClick);
-boardEl.addEventListener('oncontextmenu', handleSqrRClick)
+//boardEl.addEventListener('oncontextmenu', handleSqrRClick);
+difficultyEl.addEventListener('click', handleDiffClick);
 
 init();
 /*----- functions -----*/
 function init() {
     endStatus = false;
     boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
-    clear()
+    stop();
+    clear();
     setRevealState(boardLayout);
     createBoard(boardLayout);
     getTileEls();
@@ -44,12 +49,13 @@ function render() {
 }
 
 function handleSqrClick(evt) {
+    console.log(evt.target.id);
     if (timerOn === false && endStatus !== true) {
         timer();
         timerOn = true;
     }
     if (endStatus) return;
-    if (boardLayout[evt.target.id] === 'b') {
+    if (boardLayout[parseInt(evt.target.id)] === 'b') {
         endStatus = true;
         stop();
         bombClick(parseInt(evt.target.id));
@@ -58,14 +64,32 @@ function handleSqrClick(evt) {
     render();
 }
 
-function contextMenu() {
-boardEl.contextMenu.preventDefault();
+function handleDiffClick(evt) {
+    if (evt.target.id === 'easy') {
+        columnCount = 10;
+        rowCount = 8;
+        bombCount = 10;
+    } 
+    if (evt.target.id === 'medium') {
+        columnCount = 18;
+        rowCount = 14;
+        bombCount = 40;
+    }
+    if (evt.target.id === 'hard') {
+        columnCount = 24;
+        rowCount = 20;
+        bombCount = 99;
+    }
+    init();
 }
+// function contextMenu() {
+// boardEl.contextMenu.preventDefault();
+// }
 
-function handleSqrRClick(evt) {
-    evt.preventDefault();
+// function handleSqrRClick(evt) {
+//     evt.preventDefault();
   
-}
+// }
 
 function checkWinCon() {
     if (revealedTiles === columnCount * rowCount - bombCount) {
@@ -153,14 +177,17 @@ function renderBoard() {
 }
 
 function getTileEls() {
+    tileEls = [];
     for (let i = 0; i < boardLayout.length; i++) {
         tileEls.push(document.getElementById(`${i}`));
     }
 }
 
 function createBoard(board) {
+    boardEl.innerHTML = "";
     for (let i = 0; i < board.length; i++) {
         boardEl.innerHTML += `<div id="${i}"></div>`;
+        boardEl.style.gridTemplate = `repeat(${rowCount}, 1fr) / repeat(${columnCount}, 1fr)`
     }
 }
 
