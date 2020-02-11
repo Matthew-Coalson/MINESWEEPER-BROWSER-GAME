@@ -8,6 +8,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    position: relative;
 }
 
 h1 {
@@ -16,7 +17,7 @@ h1 {
     margin-bottom: 8vh;
 }
 
-section {
+#board {
     width: 87.5vh;
     height: 70vh;
     margin: 0;
@@ -24,7 +25,7 @@ section {
     color: #fff;
     border: 6px solid #2c3e50;
     border-radius: 10px;
-
+    position: relative;
     display: grid;
     grid-template: repeat(8, 1fr) / repeat(10, 1fr);
 }
@@ -39,4 +40,10 @@ div {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#end-message {
+    visibility: hidden;
+    position: absolute;
+    align-self: start;
 }

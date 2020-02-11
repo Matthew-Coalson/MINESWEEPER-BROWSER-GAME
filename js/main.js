@@ -26,12 +26,13 @@ const difficultyEl = document.getElementById('difficulty');
 let tileEls = [];
 /*----- event listeners -----*/
 boardEl.addEventListener('click', handleSqrClick);
-//boardEl.addEventListener('oncontextmenu', handleSqrRClick);
+boardEl.addEventListener('contextmenu', handleSqrRClick);
 difficultyEl.addEventListener('click', handleDiffClick);
 
 init();
 /*----- functions -----*/
 function init() {
+    difficultyEl.style.visibility = 'visible';
     endStatus = false;
     boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
     stop();
@@ -53,6 +54,7 @@ function handleSqrClick(evt) {
     if (timerOn === false && endStatus !== true) {
         timer();
         timerOn = true;
+        difficultyEl.style.visibility = 'hidden';
     }
     if (endStatus) return;
     if (boardLayout[parseInt(evt.target.id)] === 'b') {
@@ -61,6 +63,7 @@ function handleSqrClick(evt) {
         bombClick(parseInt(evt.target.id));
     }
     checkBlank(parseInt(evt.target.id));
+    checkWinCon();
     render();
 }
 
@@ -82,14 +85,10 @@ function handleDiffClick(evt) {
     }
     init();
 }
-// function contextMenu() {
-// boardEl.contextMenu.preventDefault();
-// }
 
-// function handleSqrRClick(evt) {
-//     evt.preventDefault();
-  
-// }
+function handleSqrRClick(evt) {
+     evt.preventDefault(); 
+}
 
 function checkWinCon() {
     if (revealedTiles === columnCount * rowCount - bombCount) {
