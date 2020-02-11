@@ -8,19 +8,20 @@
     <script defer src="js/main.js"></script>
 </head>
 <body>
-    <h1>Minesweeper</h1>
-    <h2>00:00</h2>
-    <ul id="difficulty">
-        <li id="easy">Easy</li>
-        <li id="medium">Medium</li>
-        <li id="hard">Hard</li>
-    </ul>
-    <span>flag</span>
-    <section id="board"></section>
-    <div id="end-msg">
-        <p>End message</p>
-        <span>Play Again</span>
+    <div id="page-wrap">
+        <h1>Minesweeper</h1>
+        <h2>00:00</h2>
+        <ul id="difficulty">
+            <li id="easy">Easy</li>
+            <li id="medium">Medium</li>
+            <li id="hard">Hard</li>
+        </ul>
+        <img src="imgs/flag.png" id="flag"><span id='f-count'>flag</span>
+        <section id="board"></section>     
     </div>
-                                
+    <div id="end-box">
+        <p id="end-msg">You lost!</p>
+        <span id="replay">Play Again</span>
+    </div>
 </body>
 </html>

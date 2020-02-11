@@ -8,7 +8,6 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    position: relative;
 }
 
 h1 {
@@ -30,7 +29,7 @@ h1 {
     grid-template: repeat(8, 1fr) / repeat(10, 1fr);
 }
 
-div {
+.tiles {
     
     border: .17em solid #c573b3;
     border-radius: .1em;
@@ -41,9 +40,61 @@ div {
     justify-content: center;
     align-items: center;
 }
-
-#end-message {
-    visibility: hidden;
-    position: absolute;
-    align-self: start;
+#end-box {
+    background: purple;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: fixed;
+    width: 20vh;
+    height: 20vh;
+    top: 50%;
+    left: 44.7%;
+    margin: 0;
+    flex-direction: column;
+    
+  
+    
+    transform: scale(1.5);
+  
+    
+    opacity: 0;
+    pointer-events: none;
 }
+
+#replay {
+    display: flex;
+    align-items: center;
+    margin-top: 5vh;
+    justify-content: center;
+    background-color: green;
+    width: 10vh;
+    height: 6vh;
+    cursor: pointer;
+}
+  
+  .dialogIsOpen #end-box {
+  
+    
+    transform: scale(1); 
+    opacity: 1;
+  
+    
+    pointer-events: auto;
+  
+  }
+  #page-wrap, #end-box {
+  
+    transition: all 0.4s ease; 
+  
+  }  
+  img {
+    max-width:90%;
+    max-height:90%;
+    pointer-events: none;
+  }
+
+  #flag {
+      width: 15px;
+      height: auto;
+  }

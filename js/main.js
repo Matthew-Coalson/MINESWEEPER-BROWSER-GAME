@@ -16,24 +16,33 @@ let minutes = 0;
 let timeNow;
 let timerOn = false;
 let endStatus = false;
+let fCount;
 /*----- cached element references -----*/
-
+//fix names
 const timerEl = document.querySelector('h2');
 const boardEl = document.getElementById('board');
 const difficultyEl = document.getElementById('difficulty');
-
+const bodyEl = document.querySelector('body');
+const replayBtn = document.getElementById('replay');
+const endMsg = document.getElementById('end-msg');
+const fCountEl = document.getElementById('f-count');
 
 let tileEls = [];
 /*----- event listeners -----*/
 boardEl.addEventListener('click', handleSqrClick);
 boardEl.addEventListener('contextmenu', handleSqrRClick);
 difficultyEl.addEventListener('click', handleDiffClick);
+replayBtn.addEventListener('click', handleReplay);
 
 init();
 /*----- functions -----*/
 function init() {
+    fCount = bombCount;
+    revealedTiles = 0;
+    endMsg.textContent = 'You lost!';
     difficultyEl.style.visibility = 'visible';
     endStatus = false;
+    timerOn = false;
     boardLayout = findBombAdjacent(getBombs(columnCount, rowCount, bombCount));
     stop();
     clear();
@@ -47,6 +56,10 @@ function init() {
 
 function render() {
     renderBoard();
+    if (endStatus === true) {
+        toggleBodyState();
+    }
+    fCountEl.textContent = `${fCount}`;
 }
 
 function handleSqrClick(evt) {
@@ -57,6 +70,7 @@ function handleSqrClick(evt) {
         difficultyEl.style.visibility = 'hidden';
     }
     if (endStatus) return;
+    if (revealState.tiles[parseInt(evt.target.id)] === 'f') return;
     if (boardLayout[parseInt(evt.target.id)] === 'b') {
         endStatus = true;
         stop();
@@ -86,13 +100,28 @@ function handleDiffClick(evt) {
     init();
 }
 
+function handleReplay() {
+    toggleBodyState();
+    init();
+}
+
 function handleSqrRClick(evt) {
-     evt.preventDefault(); 
+     evt.preventDefault();
+     if (revealState.tiles[parseInt(evt.target.id)] === 'h') {
+        revealState.tiles[parseInt(evt.target.id)] = 'f';
+        fCount--;
+     } else if (revealState.tiles[parseInt(evt.target.id)] === 'f') {
+        revealState.tiles[parseInt(evt.target.id)] = 'h';
+        fCount++;
+     }
+     render();
 }
 
 function checkWinCon() {
     if (revealedTiles === columnCount * rowCount - bombCount) {
         endStatus = true;
+        stop();
+        endMsg.textContent = `You won in ${minutes} minutes and ${seconds} seconds`;
     }
 }
 
@@ -170,7 +199,19 @@ function getRandomIdx(max) {
 function renderBoard() {
     for (let i = 0; i < boardLayout.length; i++) {
         if (revealState.tiles[i] !== 'h') {
-            tileEls[i].textContent = boardLayout[i];
+            if (revealState.tiles[i] === 'f') {
+                tileEls[i].innerHTML = '<img src="imgs/flag.png">';
+            } else if (boardLayout[i] === 'b') {
+                tileEls[i].innerHTML = '<img src="imgs/bomb.png">';
+            } else if (boardLayout[i] === 0) {
+                tileEls[i].style.backgroundColor = 'black';
+            } else {
+                tileEls[i].textContent = boardLayout[i];
+            }
+
+        }
+        if (revealState.tiles[i] === 'h') {
+            tileEls[i].innerHTML = '';
         }
     }
 }
@@ -185,7 +226,7 @@ function getTileEls() {
 function createBoard(board) {
     boardEl.innerHTML = "";
     for (let i = 0; i < board.length; i++) {
-        boardEl.innerHTML += `<div id="${i}"></div>`;
+        boardEl.innerHTML += `<div class="tiles" id="${i}"></div>`;
         boardEl.style.gridTemplate = `repeat(${rowCount}, 1fr) / repeat(${columnCount}, 1fr)`
     }
 }
@@ -213,4 +254,8 @@ function clear() {
     timerEl.textContent = "00:00";
     seconds = 0;
     minutes = 0;
+}
+
+function toggleBodyState() {
+    bodyEl.classList.toggle('dialogIsOpen');
 }
