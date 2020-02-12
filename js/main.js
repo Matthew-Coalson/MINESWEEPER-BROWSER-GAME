@@ -1,10 +1,7 @@
 /*----- constants -----*/
-
 const revealState = {
     tiles: {}
 }
-
-/*----- app's state (variables) -----*/
 
 let boardLayout;
 let columnCount = 10;
@@ -18,13 +15,12 @@ let timerOn = false;
 let endStatus = false;
 let fCount;
 /*----- cached element references -----*/
-//fix names
 const timerEl = document.querySelector('h2');
 const boardEl = document.getElementById('board');
 const difficultyEl = document.getElementById('difficulty');
 const bodyEl = document.querySelector('body');
-const replayBtn = document.getElementById('replay');
-const endMsg = document.getElementById('end-msg');
+const replayBtnEl = document.getElementById('replay');
+const endMsgEl = document.getElementById('end-msg');
 const fCountEl = document.getElementById('f-count');
 
 let tileEls = [];
@@ -32,14 +28,14 @@ let tileEls = [];
 boardEl.addEventListener('click', handleSqrClick);
 boardEl.addEventListener('contextmenu', handleSqrRClick);
 difficultyEl.addEventListener('click', handleDiffClick);
-replayBtn.addEventListener('click', handleReplay);
+replayBtnEl.addEventListener('click', handleReplay);
 
 init();
 /*----- functions -----*/
 function init() {
     fCount = bombCount;
     revealedTiles = 0;
-    endMsg.textContent = 'You lost!';
+    endMsgEl.textContent = 'You lost!';
     difficultyEl.style.visibility = 'visible';
     endStatus = false;
     timerOn = false;
@@ -49,9 +45,7 @@ function init() {
     setRevealState(boardLayout);
     createBoard(boardLayout);
     getTileEls();
-    render();
-
-    
+    render();  
 }
 
 function render() {
@@ -63,7 +57,6 @@ function render() {
 }
 
 function handleSqrClick(evt) {
-    console.log(evt.target.id);
     if (timerOn === false && endStatus !== true) {
         timer();
         timerOn = true;
@@ -121,7 +114,7 @@ function checkWinCon() {
     if (revealedTiles === columnCount * rowCount - bombCount) {
         endStatus = true;
         stop();
-        endMsg.textContent = `You won in ${minutes} minutes and ${seconds} seconds`;
+        endMsgEl.textContent = `You won in ${minutes} minutes and ${seconds} seconds`;
     }
 }
 
@@ -154,11 +147,12 @@ function findBombAdjacent(board) {
             if (x < (columnCount - 1) && board[i + 1] !== 'b') board[i + 1] += 1;
             if (y < (rowCount - 1) && board[i + columnCount] !== 'b') board[i + columnCount] += 1;
             if (x < (columnCount - 1) && y < (rowCount - 1) && board[i + columnCount + 1] !== 'b') board[i + columnCount + 1] += 1;
-            if (x < (columnCount - 1) && y > 0 && y < (rowCount - 1) && board[i - columnCount + 1] !== 'b') board[i - columnCount + 1] += 1;
+            if (x < (columnCount - 1) && y > 0 && y <= (rowCount - 1) && board[i - columnCount + 1] !== 'b') board[i - columnCount + 1] += 1;
         }
     }
     return board;
 }
+
 function checkBlank(index) {
     if(boardLayout[index] !== 'b' && revealState.tiles[index] === 'h') {
         const x = index % columnCount;        
@@ -173,7 +167,7 @@ function checkBlank(index) {
             if (x > 0 && y > 0 && revealState.tiles[index - columnCount - 1] === 'h') checkBlank(index - columnCount - 1);
             if (x > 0 && y < (rowCount - 1) && y < (rowCount - 1) && revealState.tiles[index + columnCount - 1] === 'h') checkBlank(index + columnCount - 1);
             if (x < (columnCount - 1) && y < (rowCount - 1) && revealState.tiles[index + columnCount + 1] === 'h') checkBlank(index + columnCount + 1);
-            if (x < (columnCount - 1) && y > 0 && y < (rowCount - 1) && revealState.tiles[index - columnCount + 1] === 'h') checkBlank(index - columnCount + 1);
+            if (x < (columnCount - 1) && y > 0 && y <= (rowCount - 1) && revealState.tiles[index - columnCount + 1] === 'h') checkBlank(index - columnCount + 1);
         }
     }
 }
