@@ -114,7 +114,7 @@ function checkWinCon() {
     if (revealedTiles === columnCount * rowCount - bombCount) {
         endStatus = true;
         stop();
-        endMsgEl.textContent = `You won in ${minutes} minutes and ${seconds} seconds`;
+        endMsgEl.textContent = 'You won!';
     }
 }
 
