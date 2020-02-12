@@ -1,22 +1,56 @@
 * {
     margin: 0;
 }
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#page-wrap {
+    display: grid;
+    grid-template-columns: 2fr 4fr 2fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    ". header ."
+    " . subheader ."
+    "bomb board miner";
     height: 100vh;
     margin: 0;
+    background-color: #122432;
+    color: #5E7B46;
+}
+
+ul {
+    grid-area: subheader;
+    cursor: pointer;
+    justify-self: center;
+    list-style-type: none;
+    justify-content: space-between;
+}
+li {
+    display: inline;
+    font-size: 3vh;
 }
 
 h1 {
+    grid-area: header;
+    justify-self: center;
     font-size: 3.5em;
-    margin-top: -4vh;
-    margin-bottom: 8vh;
 }
 
+h2 {
+    grid-area: subheader;
+    justify-self: start;
+    margin-left: 5vh;
+    align-self: end;
+    font-size: 4vh;
+}
+
+#f-count{
+    grid-area: subheader;
+    justify-self: end;
+    align-self: end;
+    margin-right: 6vh;
+    font-size: 4vh;
+}
 #board {
+    grid-area: board;
+    justify-self: center;
     width: 87.5vh;
     height: 70vh;
     margin: 0;
@@ -31,7 +65,7 @@ h1 {
 
 .tiles {
     
-    border: .17em solid #c573b3;
+    border: .07em solid #c573b3;
     border-radius: .1em;
     font-family: Helvetica;
     font-weight: bold;
@@ -87,7 +121,18 @@ h1 {
   
     transition: all 0.4s ease; 
   
-  }  
+  }
+  #miner {
+    grid-area: miner;
+    justify-self: center;
+    align-self: center;
+    width: 100vh;
+  }
+  #bomb {
+    grid-area: bomb;
+    justify-self: center;
+    width: 20vh;
+  }
   img {
     max-width:90%;
     max-height:90%;
@@ -95,6 +140,10 @@ h1 {
   }
 
   #flag {
-      width: 15px;
+      grid-area: subheader;
+      justify-self: end;
+      align-self: end;
+      margin-right: 10vh;
+      width: 3vh;
       height: auto;
   }

@@ -123,10 +123,9 @@ function bombClick(index) {
     for (let i = 0; i < boardLayout.length; i++) {
         if (boardLayout[i] === 'b') {
             revealState.tiles[i] = 'r';
-            render()
         }
     }
-    
+    endStatus = true;
 }
 
 function setRevealState(board) {
@@ -221,8 +220,8 @@ function createBoard(board) {
     boardEl.innerHTML = "";
     for (let i = 0; i < board.length; i++) {
         boardEl.innerHTML += `<div class="tiles" id="${i}"></div>`;
-        boardEl.style.gridTemplate = `repeat(${rowCount}, 1fr) / repeat(${columnCount}, 1fr)`
     }
+    boardEl.style.gridTemplate = `repeat(${rowCount}, 1fr) / repeat(${columnCount}, 1fr)`
 }
 
 function addTime() {
