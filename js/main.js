@@ -197,7 +197,7 @@ function renderBoard() {
             } else if (boardLayout[i] === 'b') {
                 tileEls[i].innerHTML = '<img src="imgs/bomb.png">';
             } else if (boardLayout[i] === 0) {
-                tileEls[i].style.backgroundColor = 'black';
+                tileEls[i].style.backgroundColor = '#638199';
             } else {
                 tileEls[i].textContent = boardLayout[i];
             }
