@@ -26,8 +26,7 @@ ul {
     justify-content: space-between;
 }
 
-li {
-    
+li { 
     display: inline;
     font-size: 3vh;
     margin: 0 1vh;
@@ -47,7 +46,7 @@ h1 {
 h2 {
     grid-area: subheader;
     justify-self: start;
-    margin-left: 5vh;
+    margin-left: 10vh;
     align-self: end;
     font-size: 4vh;
     font-weight: 400;
@@ -57,9 +56,10 @@ h2 {
     grid-area: subheader;
     justify-self: end;
     align-self: end;
-    margin-right: 6vh;
+    margin-right: 10vh;
     font-size: 4vh;
 }
+
 #board {
     grid-area: board;
     justify-self: center;
@@ -108,8 +108,7 @@ h2 {
     flex-direction: column;
     transform: scale(1.5);  
     opacity: 0;
-    pointer-events: none;
-    
+    pointer-events: none;   
 }
 
 #replay {
@@ -126,47 +125,59 @@ h2 {
     padding: 0 1vh;
     font-size: 1.5vh;
 }
+
 #replay:hover {
     background-color: #1f4434;
 }
   
-  .dialogIsOpen #end-box {
-  
-    
+.dialogIsOpen #end-box {    
     transform: scale(1); 
     opacity: 1;
-  
-    
     pointer-events: auto;
-  
-  }
-  #page-wrap, #end-box {
-  
+}
+
+#page-wrap, #end-box {
     transition: all 0.4s ease; 
-  
-  }
-  #miner {
+}
+
+#miner {
     grid-area: miner;
     justify-self: center;
     align-self: center;
     width: 100vh;
-  }
-  #bomb {
+}
+
+#bombs {
     grid-area: bomb;
+    align-content: center;
+}
+
+.bomb {
+    display: block;
     justify-self: center;
     width: 20vh;
-  }
-  img {
+    padding: 2vh 10vh;
+}
+
+#b1 {
+    padding-left: 18vh;
+}
+
+#b3 {
+    padding-left: 15vh;
+}
+
+img {
     max-width:90%;
     max-height:90%;
     pointer-events: none;
-  }
+}
 
-  #flag {
-      grid-area: subheader;
-      justify-self: end;
-      align-self: end;
-      margin-right: 11vh;
-      width: 3vh;
-      height: auto;
-  }
+#flag {
+    grid-area: subheader;
+    justify-self: end;
+    align-self: end;
+    margin-right: 15vh;
+    width: 3vh;
+    height: auto;
+}

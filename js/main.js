@@ -1,4 +1,3 @@
-/*----- constants -----*/
 const revealState = {
     tiles: {}
 }
@@ -14,7 +13,7 @@ let timeNow;
 let timerOn = false;
 let endStatus = false;
 let fCount;
-/*----- cached element references -----*/
+
 const timerEl = document.querySelector('h2');
 const boardEl = document.getElementById('board');
 const difficultyEl = document.getElementById('difficulty');
@@ -24,14 +23,14 @@ const endMsgEl = document.getElementById('end-msg');
 const fCountEl = document.getElementById('f-count');
 
 let tileEls = [];
-/*----- event listeners -----*/
+
 boardEl.addEventListener('click', handleSqrClick);
 boardEl.addEventListener('contextmenu', handleSqrRClick);
 difficultyEl.addEventListener('click', handleDiffClick);
 replayBtnEl.addEventListener('click', handleReplay);
 
 init();
-/*----- functions -----*/
+
 function init() {
     fCount = bombCount;
     revealedTiles = 0;
@@ -179,7 +178,7 @@ function getBombs(columns, rows, bombs) {
         
         if (tempArr[curIdx] === 0) {
             tempArr[curIdx] = 'b';
-            bombs -= 1;
+            bombs--;
         }
     }
     return tempArr;
