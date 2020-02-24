@@ -10,7 +10,7 @@ Minesweeper is a puzzle game in which the goal is to avoid mines by uncovering t
 
 ![](imgs/ScreenShot1.png)
 ![](imgs/ScreenShot2.png)
-![](imgs/Minesweeper-Wireframe.png)
+![](imgs/Minesweeper-Wireframe.jpg)
 
 ## Technologies Used
 
